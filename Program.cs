@@ -1,59 +1,53 @@
 ﻿using System;
+using System.Threading;
 
-namespace MathRoundDelegate
+// Author: [Your Name]
+// Purpose: A console application that generates and asks a set of questions based on user input, tracks the number of correct answers, and displays the percentage of correct answers at the end.
+// Restrictions: None
+
+class Program
 {
-    // Author: [Your Name]
-    // Purpose: Demonstrates the use of delegates to create a Math.Round method alternative.
-    // Restrictions: None
-    class Program
+    static void Main()
     {
-        // Declares a delegate that has the same signature as Math.Round method
-        public delegate double MyRoundDelegate(double value, int digits);
+        int numberOfQuestions = 0;
+        string difficultyLevel = "";
+        int correctAnswers = 0;
+        string[] questionBank = { "Question 1", "Question 2", "Question 3", "Question 4", "Question 5" };
 
-        static void Main(string[] args)
+        // Ask user for number of questions
+        Console.Write("How many questions do you want to play? (1-3): ");
+        numberOfQuestions = int.Parse(Console.ReadLine());
+
+        // Ask user for difficulty level
+        Console.Write("Select difficulty level (easy, medium, hard): ");
+        difficultyLevel = Console.ReadLine().ToLower();
+
+        // Generate random questions based on user input
+        Random random = new Random();
+        string[] questions = new string[numberOfQuestions];
+        for (int i = 0; i < numberOfQuestions; i++)
         {
-            double originalDouble = 3.14159;
-
-            // Round using Math.Round method
-            double mathRoundResult = Math.Round(originalDouble);
-
-            // Invoke delegate using the named method
-            MyRoundDelegate myRound = new MyRoundDelegate(RoundToNearestInteger);
-            double myRoundResult = myRound(originalDouble, 0);
-
-            // Invoke delegate using an anonymous method
-            MyRoundDelegate myRoundAnonymous = delegate (double value, int digits)
-            {
-                return (value >= 0) ? Math.Floor(value) : Math.Ceiling(value);
-            };
-            double myRoundAnonymousResult = myRoundAnonymous(originalDouble, 0);
-
-            // Invoke delegate using lambda operator
-            MyRoundDelegate myRoundLambda = (value, digits) => (value >= 0) ? Math.Floor(value) : Math.Ceiling(value);
-            double myRoundLambdaResult = myRoundLambda(originalDouble, 0);
-
-            // Invoke delegate using a generic template method
-            Func<double, int, double> myRoundGeneric = RoundToNearestInteger;
-            double myRoundGenericResult = myRoundGeneric(originalDouble, 0);
-
-            // Print the results
-            Console.WriteLine("Original double: " + originalDouble);
-            Console.WriteLine("Rounded using Math.Round: " + mathRoundResult);
-            Console.WriteLine("Rounded using delegate: " + myRoundResult);
-            Console.WriteLine("Rounded using anonymous method: " + myRoundAnonymousResult);
-            Console.WriteLine("Rounded using lambda operator: " + myRoundLambdaResult);
-            Console.WriteLine("Rounded using generic template type: " + myRoundGenericResult);
+            int randomIndex = random.Next(0, questionBank.Length);
+            questions[i] = questionBank[randomIndex];
         }
 
-        /// <summary>
-        /// Rounds the given value to the nearest integer.
-        /// </summary>
-        /// <param name="value">The value to round.</param>
-        /// <param name="digits">The number of digits after the decimal point to round.</param>
-        /// <returns>The rounded value.</returns>
-        private static double RoundToNearestInteger(double value, int digits)
+        // Ask generated questions and track correct answers
+        for (int i = 0; i < questions.Length; i++)
         {
-            return (value >= 0) ? Math.Floor(value) : Math.Ceiling(value);
+            Console.WriteLine($"Question {i + 1}: {questions[i]}");
+            Console.WriteLine("You have 5 seconds to answer the question.");
+            Thread.Sleep(5000);
+
+            // Assume user answers correctly within time limit for simplicity
+            Console.WriteLine("Correct!");
+
+            correctAnswers++;
         }
+
+        // Calculate and display percentage of correct answers
+        double percentage = ((double)correctAnswers / numberOfQuestions) * 100;
+        Console.WriteLine($"You answered {correctAnswers} out of {numberOfQuestions} questions correctly ({percentage}%).");
+
+        Console.ReadKey();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-// Author: [Your Name]
+// Author: Yanzhi Wang
 // Purpose: A console application that generates and asks a set of questions based on user input, tracks the number of correct answers, and displays the percentage of correct answers at the end.
 // Restrictions: None
 
